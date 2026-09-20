@@ -1,0 +1,27 @@
+Return-Path: <hacker@evil-c2.net>
+Received: from mx1.target.com (mx1.target.com [198.51.100.99])
+    by mailserver.target.internal with ESMTPS id 1KkK6060;
+    Sat, 19 Sep 2026 11:30:00 +0000
+Authentication-Results: mx1.target.com; spf=fail; dkim=none; dmarc=fail;
+From: "HR Benefits Portal" <alerts@payroll-internal-verify.xyz>
+To: "Employee" <victim@target.com>
+Subject: URGENT: Salary Review Document - Click Attached PDF Immediately
+Date: Sat, 19 Sep 2026 11:30:00 +0000
+Message-ID: <att-04-exe@payroll-internal-verify.xyz>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============BOUNDARY_EXE_04=="
+
+--===============BOUNDARY_EXE_04==
+Content-Type: text/plain; charset="utf-8"
+
+URGENT: Your updated compensation and bonus schedule has been released.
+Open the attached PDF invoice and confirm your account information immediately:
+Claim your salary bonus refund today.
+
+--===============BOUNDARY_EXE_04==
+Content-Type: application/pdf; name="salary_increase_notice.pdf"
+Content-Disposition: attachment; filename="salary_increase_notice.pdf"
+Content-Transfer-Encoding: base64
+
+TVoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABQRQAATAEBAAAAAAAAAAAAAAAAAOAAAgEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+--===============BOUNDARY_EXE_04==--

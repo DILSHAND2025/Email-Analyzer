@@ -1,0 +1,437 @@
+[
+  {
+    "filename": "phish_01_paypal_account_suspended.eml",
+    "category": "Clear Phishing",
+    "expected": "Critical",
+    "actual": "High",
+    "risk_score": 0.6913,
+    "match": false,
+    "breakdown": {
+      "ml": 0.3913,
+      "auth": 0.2,
+      "att": 0.0,
+      "ioc": 0.1
+    },
+    "factors": [
+      "Machine Learning: High confidence phishing text detected (97.8% probability) (prominent terms: click, account, claim, hours).",
+      "Authentication: DMARC verification failed (status: FAIL).",
+      "Authentication: Sender identity misalignment detected \u2014 From: 'paypal-security-update.xyz' does not align with authenticated SPF or DKIM domains.",
+      "Authentication: SPF policy check failed for sending MTA (status: FAIL).",
+      "Attachments: No email attachments present.",
+      "IOC Signals: Message body contains raw IP URL destination(s) (http://198.51.100.99/paypal/login.php)."
+    ],
+    "threat_count": 6,
+    "pdf_sha256": "ded14fcfe0cb160ef1daefaebc523db35bf7dbceb6a652a54aa6ead5343ecb19"
+  },
+  {
+    "filename": "phish_02_microsoft365_password_expired.eml",
+    "category": "Clear Phishing",
+    "expected": "High",
+    "actual": "Medium",
+    "risk_score": 0.5996,
+    "match": false,
+    "breakdown": {
+      "ml": 0.3096,
+      "auth": 0.19,
+      "att": 0.0,
+      "ioc": 0.1
+    },
+    "factors": [
+      "Machine Learning: Moderate phishing likelihood detected (77.4% probability) (prominent terms: click, url_token, password, email).",
+      "Authentication: DMARC verification failed (status: FAIL).",
+      "Authentication: Sender identity misalignment detected \u2014 From: 'it-security-portal.top' does not align with authenticated SPF or DKIM domains.",
+      "Authentication: SPF softfail indicated by sender domain policy.",
+      "Attachments: No email attachments present.",
+      "IOC Signals: Identified communication with high-abuse top-level domain(s): .xyz."
+    ],
+    "threat_count": 4,
+    "pdf_sha256": "f01c4a9c6e51bc6131f18dc75cd64cab47ff78985d6dcf350bbed584bb1f6639"
+  },
+  {
+    "filename": "phish_03_docusign_wire_fraud.eml",
+    "category": "Clear Phishing",
+    "expected": "High",
+    "actual": "High",
+    "risk_score": 0.6409,
+    "match": true,
+    "breakdown": {
+      "ml": 0.3009,
+      "auth": 0.2,
+      "att": 0.0,
+      "ioc": 0.14
+    },
+    "factors": [
+      "Machine Learning: Moderate phishing likelihood detected (75.2% probability) (prominent terms: click, immediately, transfer, instructions).",
+      "Authentication: DMARC verification failed (status: FAIL).",
+      "Authentication: Sender identity misalignment detected \u2014 From: 'esign-docusign-review.xyz' does not align with authenticated SPF or DKIM domains.",
+      "Authentication: SPF policy check failed for sending MTA (status: FAIL).",
+      "Attachments: No email attachments present.",
+      "IOC Signals: Identified communication with high-abuse top-level domain(s): .xyz.",
+      "Geolocation: 1 public IP hop(s) returned unresolvable/anomalous routing metadata."
+    ],
+    "threat_count": 5,
+    "pdf_sha256": "92163cde3d86f43ae7b17ccfe39d91425826e46272f5102a55d6f383cef6dba5"
+  },
+  {
+    "filename": "phish_04_bank_alert_verify.eml",
+    "category": "Clear Phishing",
+    "expected": "High",
+    "actual": "High",
+    "risk_score": 0.6466,
+    "match": true,
+    "breakdown": {
+      "ml": 0.3466,
+      "auth": 0.2,
+      "att": 0.0,
+      "ioc": 0.1
+    },
+    "factors": [
+      "Machine Learning: High confidence phishing text detected (86.7% probability) (prominent terms: click, url_token, account, immediately).",
+      "Authentication: DMARC verification failed (status: FAIL).",
+      "Authentication: Sender identity misalignment detected \u2014 From: 'secure-chase-update.buzz' does not align with authenticated SPF or DKIM domains.",
+      "Authentication: SPF policy check failed for sending MTA (status: FAIL).",
+      "Attachments: No email attachments present.",
+      "IOC Signals: Message body contains raw IP URL destination(s) (http://203.0.113.50/secure/bank.html)."
+    ],
+    "threat_count": 6,
+    "pdf_sha256": "7b94f3a770d52bdeac5dc829831109f6fc9be9ce7e0155f201aa5cb8b82533be"
+  },
+  {
+    "filename": "clean_01_enron_lunch_meeting.eml",
+    "category": "Clean Benign",
+    "expected": "Low",
+    "actual": "Low",
+    "risk_score": 0.0219,
+    "match": true,
+    "breakdown": {
+      "ml": 0.0219,
+      "auth": 0.0,
+      "att": 0.0,
+      "ioc": 0.0
+    },
+    "factors": [
+      "Machine Learning: Message body classified as legitimate/benign (5.5% phishing probability).",
+      "Authentication: Passed all SPF, DKIM, and DMARC alignment checks.",
+      "Attachments: No email attachments present.",
+      "IOC/Geo: No anomalous network infrastructure or suspicious domain patterns detected."
+    ],
+    "threat_count": 0,
+    "pdf_sha256": "8874468e25090088757b90e07c9d726a38fe3ff109adcfb40163bca5a26550dc"
+  },
+  {
+    "filename": "clean_02_corporate_all_hands_schedule.eml",
+    "category": "Clean Benign",
+    "expected": "Low",
+    "actual": "Low",
+    "risk_score": 0.1201,
+    "match": true,
+    "breakdown": {
+      "ml": 0.1201,
+      "auth": 0.0,
+      "att": 0.0,
+      "ioc": 0.0
+    },
+    "factors": [
+      "Machine Learning: Message body classified as legitimate/benign (30.0% phishing probability).",
+      "Authentication: Passed all SPF, DKIM, and DMARC alignment checks.",
+      "Attachments: No email attachments present.",
+      "IOC/Geo: No anomalous network infrastructure or suspicious domain patterns detected."
+    ],
+    "threat_count": 0,
+    "pdf_sha256": "fb89f26f07b23a319deaeff7fcdc0d1136eeb0ac1b81aa5a66e6210bb3c226f2"
+  },
+  {
+    "filename": "clean_03_engineering_standup_notes.eml",
+    "category": "Clean Benign",
+    "expected": "Low",
+    "actual": "Low",
+    "risk_score": 0.0541,
+    "match": true,
+    "breakdown": {
+      "ml": 0.0541,
+      "auth": 0.0,
+      "att": 0.0,
+      "ioc": 0.0
+    },
+    "factors": [
+      "Machine Learning: Message body classified as legitimate/benign (13.5% phishing probability).",
+      "Authentication: Passed all SPF, DKIM, and DMARC alignment checks.",
+      "Attachments: No email attachments present.",
+      "IOC/Geo: No anomalous network infrastructure or suspicious domain patterns detected."
+    ],
+    "threat_count": 0,
+    "pdf_sha256": "9bff7a4b48c917650cb6f0424aec355f21762e8997b280263e5c0fcebc0b9df7"
+  },
+  {
+    "filename": "clean_04_weekly_newsletter_digest.eml",
+    "category": "Clean Benign",
+    "expected": "Low",
+    "actual": "Low",
+    "risk_score": 0.096,
+    "match": true,
+    "breakdown": {
+      "ml": 0.096,
+      "auth": 0.0,
+      "att": 0.0,
+      "ioc": 0.0
+    },
+    "factors": [
+      "Machine Learning: Message body classified as legitimate/benign (24.0% phishing probability).",
+      "Authentication: Passed all SPF, DKIM, and DMARC alignment checks.",
+      "Attachments: No email attachments present.",
+      "IOC/Geo: No anomalous network infrastructure or suspicious domain patterns detected."
+    ],
+    "threat_count": 0,
+    "pdf_sha256": "e9131a5cc6b75d7bd0e267cbfbdaacf36ce912c825db98a5dda488234c24f570"
+  },
+  {
+    "filename": "auth_fail_01_misconfigured_newsletter.eml",
+    "category": "Auth Failure / Benign Text",
+    "expected": "Low",
+    "actual": "Medium",
+    "risk_score": 0.4696,
+    "match": false,
+    "breakdown": {
+      "ml": 0.2796,
+      "auth": 0.19,
+      "att": 0.0,
+      "ioc": 0.0
+    },
+    "factors": [
+      "Machine Learning: Moderate phishing likelihood detected (69.9% probability) (prominent terms: hello, remember, perfect, enjoy).",
+      "Authentication: DMARC verification failed (status: FAIL).",
+      "Authentication: Sender identity misalignment detected \u2014 From: 'gardening-world.com' does not align with authenticated SPF or DKIM domains.",
+      "Authentication: SPF softfail indicated by sender domain policy.",
+      "Attachments: No email attachments present.",
+      "IOC/Geo: No anomalous network infrastructure or suspicious domain patterns detected."
+    ],
+    "threat_count": 3,
+    "pdf_sha256": "7ead6ea14a85aca3e9c7ac55815345140ec5e2c66b7a1a31f282fbdb6a4c6658"
+  },
+  {
+    "filename": "auth_fail_02_forwarded_meeting_invite.eml",
+    "category": "Auth Failure / Benign Text",
+    "expected": "Low",
+    "actual": "Low",
+    "risk_score": 0.2416,
+    "match": true,
+    "breakdown": {
+      "ml": 0.0416,
+      "auth": 0.2,
+      "att": 0.0,
+      "ioc": 0.0
+    },
+    "factors": [
+      "Machine Learning: Message body classified as legitimate/benign (10.4% phishing probability).",
+      "Authentication: DMARC verification failed (status: FAIL).",
+      "Authentication: Sender identity misalignment detected \u2014 From: 'university.edu' does not align with authenticated SPF or DKIM domains.",
+      "Authentication: DKIM cryptographic signature verification failed.",
+      "Attachments: No email attachments present.",
+      "IOC/Geo: No anomalous network infrastructure or suspicious domain patterns detected."
+    ],
+    "threat_count": 3,
+    "pdf_sha256": "988bbd50ae3923d020867740109baa4aeea7fd9fc05b9ce7dfbb2d55e88844b3"
+  },
+  {
+    "filename": "auth_fail_03_spoofed_from_benign_text.eml",
+    "category": "Auth Failure / Benign Text",
+    "expected": "Medium",
+    "actual": "Medium",
+    "risk_score": 0.5168,
+    "match": true,
+    "breakdown": {
+      "ml": 0.3168,
+      "auth": 0.2,
+      "att": 0.0,
+      "ioc": 0.0
+    },
+    "factors": [
+      "Machine Learning: Moderate phishing likelihood detected (79.2% probability) (prominent terms: wish, family, safe, weekend).",
+      "Authentication: DMARC verification failed (status: FAIL).",
+      "Authentication: Sender identity misalignment detected \u2014 From: 'whitehouse.gov' does not align with authenticated SPF or DKIM domains.",
+      "Authentication: SPF policy check failed for sending MTA (status: FAIL).",
+      "Attachments: No email attachments present.",
+      "IOC/Geo: No anomalous network infrastructure or suspicious domain patterns detected."
+    ],
+    "threat_count": 4,
+    "pdf_sha256": "c7acbf628cbe4e9c2ee0b7ef4b83aef8790df913e088bfa64221cf54382fa5dc"
+  },
+  {
+    "filename": "attachment_01_clean_pdf_report.eml",
+    "category": "Attachment Forensics",
+    "expected": "Low",
+    "actual": "Low",
+    "risk_score": 0.0572,
+    "match": true,
+    "breakdown": {
+      "ml": 0.0572,
+      "auth": 0.0,
+      "att": 0.0,
+      "ioc": 0.0
+    },
+    "factors": [
+      "Machine Learning: Message body classified as legitimate/benign (14.3% phishing probability).",
+      "Authentication: Passed all SPF, DKIM, and DMARC alignment checks.",
+      "Attachments: All 1 attachment(s) passed static forensic analysis cleanly.",
+      "IOC/Geo: No anomalous network infrastructure or suspicious domain patterns detected."
+    ],
+    "threat_count": 0,
+    "pdf_sha256": "2d596c6f7dfbd63995016adca528f948db79f41f477ce2d255ca38db7d4acff6"
+  },
+  {
+    "filename": "attachment_02_clean_png_receipt.eml",
+    "category": "Attachment Forensics",
+    "expected": "Low",
+    "actual": "Low",
+    "risk_score": 0.0741,
+    "match": true,
+    "breakdown": {
+      "ml": 0.0741,
+      "auth": 0.0,
+      "att": 0.0,
+      "ioc": 0.0
+    },
+    "factors": [
+      "Machine Learning: Message body classified as legitimate/benign (18.5% phishing probability).",
+      "Authentication: Passed all SPF, DKIM, and DMARC alignment checks.",
+      "Attachments: All 1 attachment(s) passed static forensic analysis cleanly.",
+      "IOC/Geo: No anomalous network infrastructure or suspicious domain patterns detected."
+    ],
+    "threat_count": 0,
+    "pdf_sha256": "cfd77a4716bf61d6a3625ca6a32bfe73da437abf1d45715870b49196fd67f8b5"
+  },
+  {
+    "filename": "attachment_03_eicar_test_virus.eml",
+    "category": "Attachment Forensics",
+    "expected": "Medium",
+    "actual": "Medium",
+    "risk_score": 0.371,
+    "match": true,
+    "breakdown": {
+      "ml": 0.171,
+      "auth": 0.0,
+      "att": 0.2,
+      "ioc": 0.0
+    },
+    "factors": [
+      "Machine Learning: Message body classified as legitimate/benign (42.8% phishing probability).",
+      "Authentication: Passed all SPF, DKIM, and DMARC alignment checks.",
+      "Attachments: Critical malicious payload detected in 'eicar_standard_test.com' (Known Anti-Malware Test Pattern (EICAR Standard Signature)).",
+      "IOC/Geo: No anomalous network infrastructure or suspicious domain patterns detected."
+    ],
+    "threat_count": 2,
+    "pdf_sha256": "8b434ec6ab4f9d3bcc3afaad0793b09c54bc83aa0b794f86a99110101de83e1c"
+  },
+  {
+    "filename": "attachment_04_disguised_executable_pdf.eml",
+    "category": "Attachment Forensics",
+    "expected": "Critical",
+    "actual": "High",
+    "risk_score": 0.6158,
+    "match": false,
+    "breakdown": {
+      "ml": 0.2158,
+      "auth": 0.2,
+      "att": 0.2,
+      "ioc": 0.0
+    },
+    "factors": [
+      "Machine Learning: Moderate phishing likelihood detected (53.9% probability) (prominent terms: claim, account, immediately, urgent).",
+      "Authentication: DMARC verification failed (status: FAIL).",
+      "Authentication: Sender identity misalignment detected \u2014 From: 'payroll-internal-verify.xyz' does not align with authenticated SPF or DKIM domains.",
+      "Authentication: SPF policy check failed for sending MTA (status: FAIL).",
+      "Attachments: Critical malicious payload detected in 'salary_increase_notice.pdf' (CRITICAL: Executable binary disguised with non-executable extension '.pdf' (detected: PE32/PE32+ executable (Windows))).",
+      "IOC/Geo: No anomalous network infrastructure or suspicious domain patterns detected."
+    ],
+    "threat_count": 6,
+    "pdf_sha256": "db4fa312c67dea04f1ee458091cad93d22a099f878cd8f22f5fffeb7d1007456"
+  },
+  {
+    "filename": "attachment_05_benign_macro_document.eml",
+    "category": "Attachment Forensics",
+    "expected": "Medium",
+    "actual": "Low",
+    "risk_score": 0.2777,
+    "match": false,
+    "breakdown": {
+      "ml": 0.0777,
+      "auth": 0.0,
+      "att": 0.2,
+      "ioc": 0.0
+    },
+    "factors": [
+      "Machine Learning: Message body classified as legitimate/benign (19.4% phishing probability).",
+      "Authentication: Passed all SPF, DKIM, and DMARC alignment checks.",
+      "Attachments: Critical malicious payload detected in 'budget_model_v3.docx' (Embedded VBA macros detected in Office file: 'budget_model_v3.docx').",
+      "IOC/Geo: No anomalous network infrastructure or suspicious domain patterns detected."
+    ],
+    "threat_count": 2,
+    "pdf_sha256": "d7898196ce03ec43f25ca5625af2bb12818b7e6186349dfe090f7305f3afb5fd"
+  },
+  {
+    "filename": "edge_01_missing_headers_no_subject.eml",
+    "category": "Edge Cases",
+    "expected": "Low",
+    "actual": "Low",
+    "risk_score": 0.1637,
+    "match": true,
+    "breakdown": {
+      "ml": 0.0637,
+      "auth": 0.1,
+      "att": 0.0,
+      "ioc": 0.0
+    },
+    "factors": [
+      "Machine Learning: Message body classified as legitimate/benign (15.9% phishing probability).",
+      "Authentication: Sender identity misalignment detected \u2014 From: 'partner.org' does not align with authenticated SPF or DKIM domains.",
+      "Attachments: No email attachments present.",
+      "IOC/Geo: No anomalous network infrastructure or suspicious domain patterns detected."
+    ],
+    "threat_count": 1,
+    "pdf_sha256": "7f2a4d28be06d7cef5a308e180c07f2a49905a89fff9019c817e81b67d60c974"
+  },
+  {
+    "filename": "edge_02_unusual_encoding_iso8859.eml",
+    "category": "Edge Cases",
+    "expected": "Low",
+    "actual": "Low",
+    "risk_score": 0.2388,
+    "match": true,
+    "breakdown": {
+      "ml": 0.1988,
+      "auth": 0.0,
+      "att": 0.0,
+      "ioc": 0.04
+    },
+    "factors": [
+      "Machine Learning: Message body classified as legitimate/benign (49.7% phishing probability).",
+      "Authentication: Passed all SPF, DKIM, and DMARC alignment checks.",
+      "Attachments: No email attachments present.",
+      "Geolocation: 1 public IP hop(s) returned unresolvable/anomalous routing metadata."
+    ],
+    "threat_count": 0,
+    "pdf_sha256": "6d3db57ddbe9440f2b91baec9ec4527164a8efa1c89684d3d70ca04443a92542"
+  },
+  {
+    "filename": "edge_03_deep_nested_multipart.eml",
+    "category": "Edge Cases",
+    "expected": "Low",
+    "actual": "Low",
+    "risk_score": 0.2113,
+    "match": true,
+    "breakdown": {
+      "ml": 0.1713,
+      "auth": 0.0,
+      "att": 0.0,
+      "ioc": 0.04
+    },
+    "factors": [
+      "Machine Learning: Message body classified as legitimate/benign (42.8% phishing probability).",
+      "Authentication: Passed all SPF, DKIM, and DMARC alignment checks.",
+      "Attachments: No email attachments present.",
+      "Geolocation: 1 public IP hop(s) returned unresolvable/anomalous routing metadata."
+    ],
+    "threat_count": 0,
+    "pdf_sha256": "fccdc981653da958c464bd222fe0f5affd1cdbf06acb74285e44f0638103d3e0"
+  }
+]

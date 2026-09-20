@@ -1,0 +1,44 @@
+Return-Path: <bounce@alert-sec.com>
+Received: from mx1.target.com (mx1.target.com [198.51.100.45])
+    by internal-inbox.target.internal with ESMTPS id 4SfK9955;
+    Sat, 19 Sep 2026 05:30:00 +0000
+Received: from relay-internal.alert-sec.com ([10.0.0.15])
+    by mx1.target.com with ESMTP id 9ZzY1111;
+    Sat, 19 Sep 2026 05:29:50 +0000
+From: "Security Alert" <sender@alert-sec.com>
+To: "Analyst" <analyst@target.com>
+Subject: SOC Threat Briefing: Malicious C2 and Phishing Campaign
+Date: Sat, 19 Sep 2026 05:30:00 +0000
+Message-ID: <ioc-rich-sample-001@alert-sec.com>
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="===============BOUNDARY_IOC_001=="
+
+--===============BOUNDARY_IOC_001==
+Content-Type: text/plain; charset="utf-8"
+
+Suspicious communication detected!
+Active external C2 IP observed at 203.0.113.88.
+Local debugging server at 127.0.0.1 was also compromised.
+
+De-fanged malware staging server:
+hxxps://c2-control[.]net/payload.exe
+
+For intelligence coordination, contact whistleblower@external-leak.org.
+Note: analyst@target.com is the incident coordinator.
+
+--===============BOUNDARY_IOC_001==
+Content-Type: text/html; charset="utf-8"
+
+<!DOCTYPE html>
+<html>
+<body>
+  <h2>Urgent Security Notice</h2>
+  <p>Please update your credentials immediately at our secure portal:</p>
+  <p><a href="https://phish-secure.xyz/portal?token=abc">Verify Credentials Now</a></p>
+  <img src="https://tracking.beacon-analytics.com/pixel.gif" alt="beacon" />
+  <hr />
+  <p>To report abuse, send details to <a href="mailto:threat-intel@external-scam.org">threat-intel@external-scam.org</a>.</p>
+</body>
+</html>
+
+--===============BOUNDARY_IOC_001==--

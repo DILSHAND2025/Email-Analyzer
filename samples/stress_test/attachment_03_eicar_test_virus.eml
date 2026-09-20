@@ -1,0 +1,27 @@
+Return-Path: <audit@security-lab.org>
+Received: from mail.security-lab.org (mail.security-lab.org [198.51.100.26])
+    by target.internal with ESMTPS id 0JjJ5050;
+    Sat, 19 Sep 2026 11:15:00 +0000
+Authentication-Results: mx.target.com; spf=pass; dkim=pass header.d=security-lab.org; dmarc=pass;
+From: "Security Compliance Lab" <audit@security-lab.org>
+To: "SOC Testing" <soc@target.com>
+Subject: Scheduled Anti-Malware Test: Standard EICAR Validation
+Date: Sat, 19 Sep 2026 11:15:00 +0000
+Message-ID: <att-03-eicar@security-lab.org>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============BOUNDARY_EICAR_03=="
+
+--===============BOUNDARY_EICAR_03==
+Content-Type: text/plain; charset="utf-8"
+
+SOC Analysts:
+This message contains the standard EICAR anti-malware test signature for endpoint scanner validation.
+Static analysis engines should identify this payload as malicious.
+
+--===============BOUNDARY_EICAR_03==
+Content-Type: application/octet-stream; name="eicar_standard_test.com"
+Content-Disposition: attachment; filename="eicar_standard_test.com"
+Content-Transfer-Encoding: base64
+
+WDVPIVAlQEFQWzRcUFpYNTQoUF4pN0NDKTd9JEVJQ0FSLVNUQU5EQVJELUFOVElWSVJVUy1URVNULUZJTEUhJEgrSCo=
+--===============BOUNDARY_EICAR_03==--

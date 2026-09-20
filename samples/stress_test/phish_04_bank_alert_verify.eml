@@ -1,0 +1,18 @@
+Return-Path: <spammer@hacked-host.loan>
+Received: from relay-bad.net ([198.51.100.200])
+    by mx1.target.com with ESMTP id 8BbA4004;
+    Sat, 19 Sep 2026 08:45:00 +0000
+Authentication-Results: mx1.target.com; spf=fail; dkim=none; dmarc=fail;
+From: "Bank Security Alert" <fraud-prevention@secure-chase-update.buzz>
+To: "Account Holder" <victim@target.com>
+Subject: Security Alert: Unauthorized Debit Attempt - Immediate Verification
+Date: Sat, 19 Sep 2026 08:45:00 +0000
+Message-ID: <phish-04-bk@secure-chase-update.buzz>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+
+We detected an unauthorized debit charge of $2,450.00 on your account.
+If you did not authorize this charge, click immediately to dispute and reverse:
+http://203.0.113.50/secure/bank.html
+
+You must verify your card number, PIN, and SSN to reverse the transaction.

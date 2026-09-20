@@ -1,0 +1,22 @@
+Return-Path: <bounces@pythonweekly.com>
+Received: from mailer.pythonweekly.com (mailer.pythonweekly.com [198.51.100.16])
+    by target.internal with ESMTPS id 4DdD8008;
+    Sat, 19 Sep 2026 09:45:00 +0000
+Authentication-Results: mx.target.com; spf=pass; dkim=pass header.d=pythonweekly.com; dmarc=pass;
+From: "Python Weekly" <digest@pythonweekly.com>
+To: "Subscriber" <dev@target.com>
+Subject: Python Weekly - Issue 520: Modern Concurrency & Profiling
+Date: Sat, 19 Sep 2026 09:45:00 +0000
+Message-ID: <clean-04-pw@pythonweekly.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+
+Welcome to issue #520 of Python Weekly.
+
+In this issue:
+- Deep dive into Python 3.14 benchmark improvements
+- Architectural guide to asynchronous worker pools with asyncio
+- Community spotlight: open-source scientific computing libraries
+
+Happy coding,
+Rahul Sharma

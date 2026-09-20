@@ -1,0 +1,148 @@
+{
+  "model_type": "TF-IDF + Logistic Regression",
+  "dataset_path": "dataset/Phishing_Email.csv",
+  "total_samples": 18631,
+  "train_samples": 14904,
+  "test_samples": 3727,
+  "train_test_split": "80/20",
+  "random_state": 42,
+  "metrics": {
+    "accuracy": 0.9649,
+    "precision": 0.9446,
+    "recall": 0.9672,
+    "f1_score": 0.9557,
+    "confusion_matrix": {
+      "true_negative": 2182,
+      "false_positive": 83,
+      "false_negative": 48,
+      "true_positive": 1414
+    }
+  },
+  "classification_report": {
+    "0": {
+      "precision": 0.97847533632287,
+      "recall": 0.963355408388521,
+      "f1-score": 0.9708565072302558,
+      "support": 2265.0
+    },
+    "1": {
+      "precision": 0.9445557782231129,
+      "recall": 0.9671682626538988,
+      "f1-score": 0.9557282865833052,
+      "support": 1462.0
+    },
+    "accuracy": 0.964851086664878,
+    "macro avg": {
+      "precision": 0.9615155572729914,
+      "recall": 0.9652618355212099,
+      "f1-score": 0.9632923969067806,
+      "support": 3727.0
+    },
+    "weighted avg": {
+      "precision": 0.9651696228960268,
+      "recall": 0.964851086664878,
+      "f1-score": 0.9649221207033329,
+      "support": 3727.0
+    }
+  },
+  "top_phishing_indicators": [
+    {
+      "term": "click",
+      "weight": 5.953632685803568
+    },
+    {
+      "term": "http",
+      "weight": 4.179449540090095
+    },
+    {
+      "term": "remove",
+      "weight": 4.036730175210747
+    },
+    {
+      "term": "2005",
+      "weight": 3.955956139944812
+    },
+    {
+      "term": "2004",
+      "weight": 3.809417168312588
+    },
+    {
+      "term": "free",
+      "weight": 3.751042617605681
+    },
+    {
+      "term": "email",
+      "weight": 3.4327395800053404
+    },
+    {
+      "term": "money",
+      "weight": 3.3856490111621067
+    },
+    {
+      "term": "life",
+      "weight": 3.3409022418966554
+    },
+    {
+      "term": "best",
+      "weight": 2.8206323726446336
+    },
+    {
+      "term": "site",
+      "weight": 2.805938088913363
+    },
+    {
+      "term": "removed",
+      "weight": 2.7718187519945765
+    }
+  ],
+  "top_legitimate_indicators": [
+    {
+      "term": "enron",
+      "weight": -8.35514429888329
+    },
+    {
+      "term": "wrote",
+      "weight": -5.823296704451741
+    },
+    {
+      "term": "thanks",
+      "weight": -5.174658093149987
+    },
+    {
+      "term": "url_token",
+      "weight": -4.949114293390305
+    },
+    {
+      "term": "language",
+      "weight": -4.648473201010198
+    },
+    {
+      "term": "2002",
+      "weight": -4.499651596085561
+    },
+    {
+      "term": "university",
+      "weight": -4.1565674101833485
+    },
+    {
+      "term": "vince",
+      "weight": -3.976258405207141
+    },
+    {
+      "term": "attached",
+      "weight": -3.7919848141588384
+    },
+    {
+      "term": "edu",
+      "weight": -3.7572680136018195
+    },
+    {
+      "term": "linguistics",
+      "weight": -3.7427667197740826
+    },
+    {
+      "term": "2001",
+      "weight": -3.720518274329437
+    }
+  ]
+}

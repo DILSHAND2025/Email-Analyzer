@@ -1,0 +1,30 @@
+Return-Path: <billing@reliable-partner.com>
+Received: from mail.reliable-partner.com (mail.reliable-partner.com [198.51.100.22])
+    by target.internal with ESMTPS id 8HhH3030;
+    Sat, 19 Sep 2026 10:45:00 +0000
+Authentication-Results: mx.target.com; spf=pass; dkim=pass header.d=reliable-partner.com; dmarc=pass;
+From: "Finance Billing" <billing@reliable-partner.com>
+To: "Client Accounts" <accounts@target.com>
+Subject: Monthly Account Statement - September 2026
+Date: Sat, 19 Sep 2026 10:45:00 +0000
+Message-ID: <att-01-pdf@reliable-partner.com>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============BOUNDARY_PDF_01=="
+
+--===============BOUNDARY_PDF_01==
+Content-Type: text/plain; charset="utf-8"
+
+Dear Customer,
+
+Please find attached your monthly account statement for the billing period ending September 2026.
+Should you have any questions regarding your invoice, please contact our accounts team.
+
+Thank you for your business.
+
+--===============BOUNDARY_PDF_01==
+Content-Type: application/pdf; name="monthly_statement.pdf"
+Content-Disposition: attachment; filename="monthly_statement.pdf"
+Content-Transfer-Encoding: base64
+
+JVBERi0xLjQKMSAwIG9iajw8L1R5cGUvQ2F0YWxvZy9QYWdlcyAyIDAgUj4+ZW5kb2JqCjIgMCBvYmo8PC9UeXBlL1BhZ2VzL0tpZHNbMyAwIFJdL0NvdW50IDE+PmVuZG9iagozIDAgb2JqPDwvVHlwZS9QYWdlL1BhcmVudCAyIDAgUi9NZWRpYUJveFswIDAgNjEyIDc5Ml0+PmVuZG9iagp4cmVmCjAgNAowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMDkgMDAwMDAgbiAKMDAwMDAwMDA1MiAwMDAwMCBuIAowMDAwMDAwMTAyIDAwMDAwIG4gCnRyYWlsZXI8PC9TaXplIDQvUm9vdCAxIDAgUj4+CnN0YXJ0eHJlZgoxNzgKJSVFT0YK
+--===============BOUNDARY_PDF_01==--

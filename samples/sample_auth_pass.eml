@@ -1,0 +1,19 @@
+Return-Path: <security@corp-defense.com>
+Authentication-Results: mx1.receiver.com;
+    dkim=pass (1024-bit key) header.d=corp-defense.com header.i=@corp-defense.com header.s=s2026;
+    spf=pass (mx1.receiver.com: domain of security@corp-defense.com designates 198.51.100.12 as permitted sender) smtp.mailfrom=security@corp-defense.com;
+    dmarc=pass (p=REJECT dis=NONE) header.from=corp-defense.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=corp-defense.com; s=s2026;
+    h=From:To:Subject:Date:Message-ID;
+    bh=w639K...=; b=AbC123...
+Received: from mail.corp-defense.com (mail.corp-defense.com [198.51.100.12])
+    by mx1.receiver.com with ESMTPS id 4SfK9900;
+    Sat, 19 Sep 2026 05:00:00 +0000
+From: "Security Ops" <security@corp-defense.com>
+To: "Analyst" <analyst@receiver.com>
+Subject: Legitimate Notification
+Date: Sat, 19 Sep 2026 05:00:00 +0000
+Message-ID: <auth-pass-001@corp-defense.com>
+Content-Type: text/plain; charset="utf-8"
+
+This is a legitimate authenticated email with passing SPF, DKIM, and aligned DMARC.

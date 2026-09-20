@@ -1,0 +1,18 @@
+Return-Path: <attacker@relay.click>
+Received: from mx1.target.com (mx1.target.com [192.0.2.77])
+    by mailserver.target.internal with ESMTPS id 4SfK3003;
+    Sat, 19 Sep 2026 08:30:00 +0000
+Authentication-Results: mx1.target.com; spf=fail; dkim=none; dmarc=fail;
+From: "DocuSign Signature Service" <document@esign-docusign-review.xyz>
+To: "Accounting Dept" <accounting@target.com>
+Subject: URGENT: Wire Transfer Authorization Document Ready for Signature
+Date: Sat, 19 Sep 2026 08:30:00 +0000
+Message-ID: <phish-03-ds@esign-docusign-review.xyz>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+
+DocuSign: You have received a financial document for immediate electronic signature.
+Review invoice and wire payment instructions:
+https://docusign-financial-review.xyz/sign/invoice4891
+
+Click immediately to confirm payment routing numbers and approve invoice transfer.

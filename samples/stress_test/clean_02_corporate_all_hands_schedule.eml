@@ -1,0 +1,22 @@
+Return-Path: <announcements@corp-target.com>
+Received: from mx1.corp-target.com (mx1.corp-target.com [198.51.100.11])
+    by mailserver.corp-target.internal with ESMTPS id 2BbB6006;
+    Sat, 19 Sep 2026 09:15:00 +0000
+Authentication-Results: mx.target.com; spf=pass; dkim=pass header.d=corp-target.com; dmarc=pass;
+From: "Internal Communications" <announcements@corp-target.com>
+To: "All Employees" <all-staff@corp-target.com>
+Subject: Reminder: Quarterly Company All-Hands Meeting This Thursday
+Date: Sat, 19 Sep 2026 09:15:00 +0000
+Message-ID: <clean-02-ah@corp-target.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+
+Hello Team,
+
+Please join us this Thursday at 2:00 PM EST for our quarterly company all-hands meeting.
+Agenda items include:
+- Product roadmap and engineering updates
+- Financial performance and milestones
+- Open Q&A session with executive leadership
+
+We look forward to seeing everyone there.

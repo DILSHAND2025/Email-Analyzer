@@ -1,0 +1,26 @@
+Return-Path: <orders@clean-merchant.com>
+Received: from mail.clean-merchant.com (mail.clean-merchant.com [198.51.100.24])
+    by target.internal with ESMTPS id 9IiI4040;
+    Sat, 19 Sep 2026 11:00:00 +0000
+Authentication-Results: mx.target.com; spf=pass; dkim=pass header.d=clean-merchant.com; dmarc=pass;
+From: "Store Customer Support" <orders@clean-merchant.com>
+To: "Buyer" <buyer@target.com>
+Subject: Your Order Confirmation and Image Receipt #88921
+Date: Sat, 19 Sep 2026 11:00:00 +0000
+Message-ID: <att-02-png@clean-merchant.com>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============BOUNDARY_PNG_02=="
+
+--===============BOUNDARY_PNG_02==
+Content-Type: text/plain; charset="utf-8"
+
+Thank you for your purchase.
+Your order receipt image is attached. Your shipment is scheduled to depart our fulfillment center tomorrow.
+
+--===============BOUNDARY_PNG_02==
+Content-Type: image/png; name="order_receipt.png"
+Content-Disposition: attachment; filename="order_receipt.png"
+Content-Transfer-Encoding: base64
+
+iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFWM0AAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==
+--===============BOUNDARY_PNG_02==--

@@ -1,0 +1,16 @@
+Return-Path: <attacker@compromised-relay.xyz>
+Authentication-Results: mx1.victim-corp.com;
+    spf=pass (mx1.victim-corp.com: domain of attacker@compromised-relay.xyz designates 203.0.113.88 as permitted sender) smtp.mailfrom=attacker@compromised-relay.xyz;
+    dkim=none;
+    dmarc=fail (p=REJECT dis=REJECT) header.from=trusted-bank.com
+Received: from mail.compromised-relay.xyz (mail.compromised-relay.xyz [203.0.113.88])
+    by mx1.victim-corp.com with ESMTPS id 4SfK9901;
+    Sat, 19 Sep 2026 05:05:00 +0000
+From: "Security Desk" <security@trusted-bank.com>
+To: "Customer" <victim@victim-corp.com>
+Subject: Security Alert: Account Suspended
+Date: Sat, 19 Sep 2026 05:05:00 +0000
+Message-ID: <spoof-attack-002@trusted-bank.com>
+Content-Type: text/plain; charset="utf-8"
+
+Immediate action required! Login to prevent suspension: http://phish.xyz/login

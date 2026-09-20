@@ -1,0 +1,12 @@
+{
+  "include": [
+    "maverick",
+    "tests",
+    "conftest.py"
+  ],
+  "extraPaths": [
+    "."
+  ],
+  "pythonPath": "C:\\Users\\Dilshand\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+  "pythonVersion": "3.14"
+}

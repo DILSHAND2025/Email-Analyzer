@@ -1,0 +1,20 @@
+Return-Path: <vkaminski@enron.com>
+Received: from mailserver.enron.com (mailserver.enron.com [198.51.100.10])
+    by target.internal with ESMTPS id 1AaA5005;
+    Sat, 19 Sep 2026 09:00:00 +0000
+Authentication-Results: mx.target.com; spf=pass; dkim=pass header.d=enron.com; dmarc=pass;
+From: "Vince Kaminski" <vkaminski@enron.com>
+To: "Shirley Crenshaw" <shirley.crenshaw@enron.com>
+Subject: Lunch meeting tomorrow to review budget research
+Date: Sat, 19 Sep 2026 09:00:00 +0000
+Message-ID: <clean-01-enron@enron.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+
+Shirley,
+
+Let's meet tomorrow at 12:30 for lunch in the cafeteria to review the quarterly risk modeling budget presentation.
+I will bring the draft research slides.
+
+Best regards,
+Vince

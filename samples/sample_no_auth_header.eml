@@ -1,0 +1,13 @@
+Return-Path: <dev@internal-tools.local>
+Received: from workstation-10.local ([127.0.0.1])
+    by gateway.local with SMTP id DEV123;
+    Sat, 19 Sep 2026 05:10:00 +0000
+From: "Dev Bot" <dev@internal-tools.local>
+To: "Engineering" <eng@internal-tools.local>
+Subject: Direct Verification Test Notice
+Date: Sat, 19 Sep 2026 05:10:00 +0000
+Message-ID: <no-auth-header-003@internal-tools.local>
+Content-Type: text/plain; charset="utf-8"
+
+This email does not include any pre-computed Authentication-Results header.
+The MAVERICK engine should fall back to running direct verification.

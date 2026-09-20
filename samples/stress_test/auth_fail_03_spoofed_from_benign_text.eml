@@ -1,0 +1,18 @@
+Return-Path: <spoofer@cheap-vps-hosting.net>
+Received: from rogue-relay.net ([198.51.100.111])
+    by mx1.target.com with ESMTP id 7GgG2020;
+    Sat, 19 Sep 2026 10:30:00 +0000
+Authentication-Results: mx1.target.com; spf=fail; dkim=none; dmarc=fail;
+From: "Presidential Office" <contact@whitehouse.gov>
+To: "Citizen" <citizen@target.com>
+Subject: Wishing you a pleasant holiday weekend
+Date: Sat, 19 Sep 2026 10:30:00 +0000
+Message-ID: <af-03-sp@whitehouse.gov>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+
+Dear Citizen,
+
+We wish you and your family a safe, peaceful, and pleasant holiday weekend ahead.
+
+Warmest regards.

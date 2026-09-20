@@ -1,0 +1,69 @@
+Return-Path: <security-alert@corp-defense.com>
+Received: from mx1.target-corp.com (mx1.target-corp.com [198.51.100.25])
+    by mailserver.target-corp.internal (Postfix) with ESMTPS id 4SfK9837
+    for <analyst@target-corp.internal>; Fri, 18 Sep 2026 10:15:35 +0000 (UTC)
+Received: from relay-us-east.corp-defense.com (relay-us-east.corp-defense.com [198.51.100.12])
+    by mx1.target-corp.com (Postfix) with ESMTPS id 3AbC1290
+    for <analyst@target-corp.internal>; Fri, 18 Sep 2026 10:15:32 +0000 (UTC)
+Received: from mail-client.corp-defense.internal ([10.20.30.40])
+    by relay-us-east.corp-defense.com with ESMTP id 9ZzY8712;
+    Fri, 18 Sep 2026 10:15:28 +0000 (UTC)
+Authentication-Results: mx1.target-corp.com; dkim=pass (1024-bit key) header.d=corp-defense.com header.i=@corp-defense.com; spf=pass (mx1.target-corp.com: domain of security-alert@corp-defense.com designates 198.51.100.12 as permitted sender)
+Message-ID: <20260918101528.9ZzY8712@corp-defense.com>
+Date: Fri, 18 Sep 2026 10:15:28 +0000
+From: "Security Ops" <security-alert@corp-defense.com>
+To: "Forensic Analyst" <analyst@target-corp.internal>
+Cc: "Incident Response Team" <irt@target-corp.internal>
+Subject: [ALERT] Urgent SOC Investigation Briefing - Ref #9042
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============7283940182736452109=="
+
+--===============7283940182736452109==
+Content-Type: multipart/alternative; boundary="===============1122334455667788990=="
+
+--===============1122334455667788990==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+Security Alert:
+
+Suspicious outbound beaconing activity detected from host 10.20.30.40.
+Please review the attached incident report immediately.
+
+SOC Team
+Incident Response Command
+
+--===============1122334455667788990==
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html>
+<body>
+  <h2 style="color: #d9534f;">Security Alert: Incident #9042</h2>
+  <p>Suspicious outbound beaconing activity detected from host <code>10.20.30.40</code>.</p>
+  <p>Please review the attached incident report immediately.</p>
+  <hr>
+  <p><em>SOC Team - Incident Response Command</em></p>
+</body>
+</html>
+
+--===============1122334455667788990==--
+
+--===============7283940182736452109==
+Content-Type: application/pdf; name="Incident_Report_9042.pdf"
+Content-Disposition: attachment; filename="Incident_Report_9042.pdf"
+Content-Transfer-Encoding: base64
+
+JVBERi0xLjQKJcTl8uXrp/Og0MTGCjEgMCBvYmoKPDwgL1R5cGUgL0NhdGFsb2cgL1BhZ2Vz
+IDIgMCBSID4+CmVuZG9iagoyIDAgb2JqCjw8IC9UeXBlIC9QYWdlcyAvS2lkcyBbIDMgMCBS
+IF0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAy
+IDAgUiAvTWVkaWFCb3ggWyAwIDAgNjEyIDc5MiBdIC9Db250ZW50cyA0IDAgUiA+PgplbmRv
+YmoKNCAwIG9iago8PCAvTGVuZ3RoIDQ0ID4+CnN0cmVhbQpCVAovRjEgMTIgVGYKNzIgNzEy
+IFRECihNYXZlcmljayBGb3JlbnNpYyBSZXBvcnQgVGVzdCkgVGoKRVQKZW5kc3RyZWFtCmVu
+ZG9iagp4cmVmCjAgNQowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMTUgMDAwMDAgbiAK
+MDAwMDAwMDA2OCAwMDAwMCBuIAowMDAwMDAwMTI1IDAwMDAwIG4gCjAwMDAwMDAyMTkgMDAw
+MDAgbiAKdHJhaWxlcgo8PCAvU2l6ZSA1IC9Sb290IDEgMCBSID4+CnN0YXJ0eHJlZgotLTEK
+JSVFT0YK
+
+--===============7283940182736452109==--

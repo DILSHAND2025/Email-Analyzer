@@ -1,0 +1,19 @@
+Return-Path: <bounce@attacker-server.com>
+Received: from mx1.target.com (mx1.target.com [198.51.100.99])
+    by mailserver.target.internal with ESMTPS id 4SfK1001;
+    Sat, 19 Sep 2026 08:00:00 +0000
+Authentication-Results: mx1.target.com; spf=fail; dkim=none; dmarc=fail;
+From: "PayPal Security Dept" <service@paypal-security-update.xyz>
+To: "Customer" <victim@target.com>
+Subject: URGENT: Your PayPal Account Has Been Restricted - Action Required
+Date: Sat, 19 Sep 2026 08:00:00 +0000
+Message-ID: <phish-01-pp@paypal-security-update.xyz>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+
+URGENT NOTICE: Your PayPal account has been restricted due to suspicious unauthorized login attempts.
+Click immediately to verify your identity and restore full access:
+http://198.51.100.99/paypal/login.php
+
+Failure to confirm your account credentials within 24 hours will result in permanent suspension and forfeiture of funds.
+Claim your verification refund now.

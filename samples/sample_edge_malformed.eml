@@ -1,0 +1,18 @@
+Received: by 127.0.0.1 with HTTP; Invalid-Date-String-Not-RFC2822
+Received: from bad-actor.xyz ([198.51.100.99]) by relay.evil.net with SMTP id xyz123
+From: spoofed-sender@compromised-host.org
+To: victim@company.com
+Content-Type: multipart/mixed; boundary="BROKEN_BOUNDARY_XYZ"
+
+--BROKEN_BOUNDARY_XYZ
+Content-Type: text/plain
+
+This email has NO Subject, NO Date, and NO Message-ID!
+It also contains malformed Received headers and an unnamed binary payload.
+
+--BROKEN_BOUNDARY_XYZ
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: base64
+
+SGVsbG8gTWF2ZXJpY2sgbWFsZm9ybWVkIHRlc3QgcGF5bG9hZCE=
+

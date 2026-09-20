@@ -1,0 +1,87 @@
+From: "Threat Hunter" <hunter@defenders.org>
+To: "Tier 3 Analyst" <soc3@defenders.org>
+Subject: =?utf-8?B?RndkOiBGb3JlbnNpYyBJbnZlc3RpZ2F0aW9uOiBQaGlzaGluZyBFdmFzaW9uIFBhY2thZ2U=?=
+Date: Sat, 19 Sep 2026 04:30:00 +0000
+Message-ID: <nested-sample-999@defenders.org>
+Return-Path: <hunter@defenders.org>
+Received: from gateway.defenders.org (gateway.defenders.org [203.0.113.5])
+    by soc-inbox.defenders.org with ESMTPS id NESTED123
+    for <soc3@defenders.org>; Sat, 19 Sep 2026 04:30:05 +0000 (UTC)
+Received: from workstation-04.defenders.internal ([10.10.10.50])
+    by gateway.defenders.org with ESMTP id SECRELAY88
+    for <soc3@defenders.org>; Sat, 19 Sep 2026 04:30:01 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="BOUNDARY_OUTER_MIXED"
+
+--BOUNDARY_OUTER_MIXED
+Content-Type: multipart/related; boundary="BOUNDARY_RELATED"
+
+--BOUNDARY_RELATED
+Content-Type: multipart/alternative; boundary="BOUNDARY_ALTERNATIVE"
+
+--BOUNDARY_ALTERNATIVE
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+Héllo MAVERICK Forensic Team,
+
+Attached is a forwarded phishing artifact intercepted at the perimeter.
+Notice the inline logo and embedded RFC822 message.
+
+Regards,
+Lead Threat Hunter
+
+--BOUNDARY_ALTERNATIVE
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+<body>
+  <p>H&eacute;llo MAVERICK Forensic Team,</p>
+  <p>Attached is a forwarded phishing artifact intercepted at the perimeter.</p>
+  <img src="cid:logo_cid_001@maverick" alt="MAVERICK Shield" />
+</body>
+</html>
+
+--BOUNDARY_ALTERNATIVE--
+
+--BOUNDARY_RELATED
+Content-Type: image/png
+Content-ID: <logo_cid_001@maverick>
+Content-Disposition: inline; filename="shield_logo.png"
+Content-Transfer-Encoding: base64
+
+iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9
+awAAAABJRU5ErkJggg==
+
+--BOUNDARY_RELATED--
+
+--BOUNDARY_OUTER_MIXED
+Content-Type: message/rfc822
+Content-Disposition: attachment; filename="phishing_sample_forwarded.eml"
+
+From: phisher@spoofed-bank.com
+To: victim@target-corp.com
+Subject: Immediate Action Required: Verify Account
+Date: Fri, 18 Sep 2026 12:00:00 +0000
+Message-ID: <inner-msg-456@spoofed-bank.com>
+Content-Type: text/plain; charset="utf-8"
+
+Dear customer, please click the link to verify your credentials.
+
+--BOUNDARY_OUTER_MIXED
+Content-Type: application/pdf; name="malicious_macro_analysis.pdf"
+Content-Disposition: attachment; filename="malicious_macro_analysis.pdf"
+Content-Transfer-Encoding: base64
+
+JVBERi0xLjQKJcTl8uXrp/Og0MTGCjEgMCBvYmoKPDwgL1R5cGUgL0NhdGFsb2cgL1BhZ2Vz
+IDIgMCBSID4+CmVuZG9iagoyIDAgb2JqCjw8IC9UeXBlIC9QYWdlcyAvS2lkcyBbIDMgMCBS
+IF0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAy
+IDAgUiAvTWVkaWFCb3ggWyAwIDAgNjEyIDc5MiBdIC9Db250ZW50cyA0IDAgUiA+PgplbmRv
+YmoKNCAwIG9iago8PCAvTGVuZ3RoIDI1ID4+CnN0cmVhbQpCVAovRjEgMTIgVGYKKEZha2Up
+IFRqCkVUCmVuZHN0cmVhbQplbmRvYmoKeHJlZgowIDUKMDAwMDAwMDAwMCA2NTUzNSBmIAow
+MDAwMDAwMDE1IDAwMDAwIG4gCjAwMDAwMDAwNjggMDAwMDAgbiAKMDAwMDAwMDEyNSAwMDAw
+MCBuIAowMDAwMDAwMjE5IDAwMDAwIG4gCnRyYWlsZXIKPDwgL1NpemUgNSAvUm9vdCAxIDAg
+UiA+PgpzdGFydHhyZWYKLS0xCg==
+
+--BOUNDARY_OUTER_MIXED--

@@ -1,0 +1,34 @@
+Return-Path: <newsletter@corporate-news.com>
+Received: from mailer.corporate-news.com ([198.51.100.34])
+    by mx1.target.com with ESMTP id 4NnN9090;
+    Sat, 19 Sep 2026 12:15:00 +0000
+Authentication-Results: mx1.target.com; spf=pass; dkim=pass header.d=corporate-news.com; dmarc=pass;
+From: "Corporate News Desk" <newsletter@corporate-news.com>
+To: "Reader" <reader@target.com>
+Subject: Corporate Quarterly Highlights
+Date: Sat, 19 Sep 2026 12:15:00 +0000
+Message-ID: <edge-03-nested@corporate-news.com>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============OUTER_BOUNDARY=="
+
+--===============OUTER_BOUNDARY==
+Content-Type: multipart/alternative; boundary="===============ALT_BOUNDARY=="
+
+--===============ALT_BOUNDARY==
+Content-Type: multipart/related; boundary="===============REL_BOUNDARY=="
+
+--===============REL_BOUNDARY==
+Content-Type: text/html; charset="utf-8"
+
+<!DOCTYPE html>
+<html>
+<body>
+  <h2>Corporate Quarterly Highlights</h2>
+  <p>Our complete quarterly financial presentation is now accessible on the corporate intranet.</p>
+  <p>Thank you for your hard work and continued dedication.</p>
+</body>
+</html>
+
+--===============REL_BOUNDARY==--
+--===============ALT_BOUNDARY==--
+--===============OUTER_BOUNDARY==--
