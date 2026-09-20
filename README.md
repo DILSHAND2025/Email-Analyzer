@@ -316,52 +316,64 @@ Interactive OpenAPI / Swagger documentation is available at:
    - `format=pdf`: Streams the compiled PDF file directly with `Content-Disposition: attachment` and `X-PDF-SHA256` headers.
 9. **`GET /reports/{case_id}/pdf`**: Downloads the cached PDF report by Case ID.
 10. **`GET /reports/{case_id}/json`**: Retrieves the cached structured JSON report by Case ID.
+11. **`POST /api/submissions`**: Submits an `.eml` email for background forensic analysis and persistence into the SQLite database. Generates and stores the signed PDF report in `data/reports/`, returning a minimal confirmation object with the assigned `case_id`.
+12. **`GET /api/submissions`**: Analyst triage queue endpoint. Returns all submissions sorted by threat priority (`Critical` &rarr; `High` &rarr; `Medium` &rarr; `Low`) with aggregate operational counters and optional filters (`status`, `verdict`, `search`).
+13. **`GET /api/submissions/{case_id}`**: Retrieves complete submission metadata and full structured forensic report JSON.
+14. **`PATCH /api/submissions/{case_id}/status`**: Updates submission review status (`New` &harr; `Reviewed`).
+15. **`GET /api/submissions/{case_id}/pdf`**: Streams the persisted forensic PDF report directly from disk.
 
 ---
 
-## Live Demonstration Web Interface (`GET /`)
+## Web Interfaces & Operational Workflows
 
-MAVERICK includes a projector-optimized, high-contrast live demonstration interface designed for conference rooms, executive briefings, and live presentations without requiring Postman or terminal commands.
+MAVERICK provides three dedicated web interfaces tailored for enterprise threat response workflows:
 
-### Features
-- **Projector-Optimized UI**: Built with a modern dark cybersecurity aesthetic (`#070b14`), high-contrast typography, and bold indicators visible across large presentation rooms.
+### 1. User Submission Portal (`GET /` or `GET /submit`)
+
+A public-facing portal allowing employees and users to report suspicious emails safely:
+- **Clean Drag-and-Drop Uploader**: Accepts any RFC 822 `.eml` file with instant file validation.
+- **Asynchronous Ingestion**: Triggers the full 8-module forensic pipeline in the background and commits findings to SQLite.
+- **Minimal Confirmation**: Returns a clean confirmation card with the generated **Case ID** and copy button.
+- **Strict Reporter Isolation**: Threat verdicts, risk scores, and evidence details are strictly isolated from the reporter to prevent employee panic and thwart threat-actor reconnaissance.
+
+### 2. Security Analyst Review Dashboard (`GET /admin`)
+
+An operations-grade SOC triage dashboard designed for forensic review and incident response:
+- **Priority-Driven Queue**: Submissions are automatically ordered by threat severity (`Critical` &rarr; `High` &rarr; `Medium` &rarr; `Low`), with secondary sorting by submission timestamp (newest first).
+- **Executive Counter Badges**: Live counters for Total Submissions, Pending New, Critical Threats, and High Severity cases.
+- **Real-Time Filtering**: Filter by review status (`New`, `Reviewed`), verdict level, or search by filename or Case ID.
+- **One-Click Status Toggle**: Mark cases as `Reviewed` or restore to `New` with instant UI updates.
+- **Expandable Forensic Dossier**: Expand any row to inspect deep-dive forensic tabs:
+  - **Fusion Breakdown**: 4-pillar risk contribution bars and automated reasoning factors.
+  - **ML Phishing**: Neural network classification probability, confidence, and top influential lexical tokens.
+  - **Authentication**: Cryptographic verification of SPF, DKIM, and RFC 7489 DMARC alignment status.
+  - **IOCs & Geolocation**: Extracted public IPs, URLs, domains, excluded subnets, and IP-API geolocation telemetry table.
+  - **Attachments**: Static forensic analysis (magic byte verification, MIME mismatch alerts, VBA macro markers, PE headers, hashes).
+  - **Hop Timeline & Recommendations**: Inter-MTA transit delays and prioritized incident response actions.
+- **One-Click PDF Download**: Direct download button to stream the signed forensic PDF report from `data/reports/`.
+
+### 3. Live Demonstration Interface (`GET /demo`)
+
+A high-contrast, projector-optimized live demonstration tool designed for conference rooms, executive briefings, and live presentations:
 - **One-Click Demo Presets**: Instant load buttons for:
   - 🚨 **Phishing Attack** (`sample_phishing.eml`)
   - 🛡️ **Clean Corporate** (`sample_clean.eml`)
   - ⚠️ **Spoofed Auth** (`sample_auth_spoofed.eml`)
   - ☣️ **Disguised Malware** (`attachment_04_disguised_executable_pdf.eml`)
-- **Drag-and-Drop Uploader**: Accepts any standard `.eml` / RFC 822 email file.
-- **Executive Threat Overview**:
-  - Timestamped **Case ID** with one-click copy button.
-  - Color-coded **Verdict Badge** (`Low` green, `Medium` yellow/amber, `High` orange, `Critical` pulsing red).
-  - High-visibility **Risk Score Meter** (0.00 to 1.00).
-  - One-click **Download PDF Report** button and **SHA-256 PDF integrity digest**.
-- **Tabbed Evidence Deep Dive**:
-  - **Fusion & Factors**: 4-pillar risk contribution bars (ML 40%, Auth 20%, Att 20%, IOC 20%) & automated reasoning factors.
-  - **ML Phishing**: Neural network classification probability, confidence, and top influential lexical features.
-  - **Authentication**: Cryptographic verification of SPF, DKIM, and RFC 7489 DMARC alignment status.
-  - **IOCs & Geolocation**: Extracted public IPs, URLs, domains, excluded RFC 1918 subnets, and IP-API geolocation telemetry table.
-  - **Attachments**: Static forensic flags (magic byte verification, MIME mismatch alerts, macro markers, PE headers, hashes).
-  - **Hop Timeline & Recommendations**: Inter-MTA transit delays and prioritized incident response actions.
-
-### Accessing the Web Interface
-1. Start the server:
-   ```powershell
-   uvicorn maverick.api:app --host 127.0.0.1 --port 8000
-   ```
-2. Open your browser and navigate to:
-   ```
-   http://127.0.0.1:8000/
-   ```
+- **Direct Interactive Inspector**: View verdicts, risk scores, and full forensic evidence in real time.
 
 ---
 
 ## Running the Full Test Suite
 
+MAVERICK includes a comprehensive test suite covering all modules, models, pipelines, persistence layers, and API endpoints:
+
 ```powershell
 python -m pytest -v
 ```
-*(84 automated tests passing across parser, auth, intel, ml, geo, forensics, fusion, reports, and UI demo modules)*
+
+*(**97 automated tests passing** across parser, auth, intel, ml, geo, forensics, fusion, reports, db persistence, submissions API, and UI endpoints)*
+
 
 
 

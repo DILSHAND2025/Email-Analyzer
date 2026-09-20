@@ -1,0 +1,361 @@
+/* ==========================================================================
+   MAVERICK - Security Analyst Operations Dashboard Styles
+   ========================================================================== */
+
+.header-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.auth-todo-badge {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px dashed #f59e0b;
+  color: #f59e0b;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.admin-top-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.88rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.2s ease;
+}
+
+.admin-top-link:hover {
+  color: var(--accent-cyan);
+}
+
+/* ==========================================================================
+   Metrics Summary Cards
+   ========================================================================== */
+
+.admin-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 950px) {
+  .admin-metrics-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.admin-metric-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s ease;
+}
+
+.admin-metric-card:hover {
+  transform: translateY(-2px);
+}
+
+.admin-metric-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.admin-metric-num {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--text-primary);
+}
+
+.card-highlight-new {
+  border-left: 4px solid var(--accent-cyan);
+}
+.card-highlight-new .admin-metric-num {
+  color: var(--accent-cyan);
+}
+
+.card-highlight-critical {
+  border-left: 4px solid #ef4444;
+}
+.card-highlight-critical .admin-metric-num {
+  color: #ef4444;
+}
+
+.card-highlight-high {
+  border-left: 4px solid #f97316;
+}
+.card-highlight-high .admin-metric-num {
+  color: #f97316;
+}
+
+/* ==========================================================================
+   Controls Bar (Filters & Search)
+   ========================================================================== */
+
+.admin-controls-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.controls-left {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+
+.form-select, .form-input {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.form-select:focus, .form-input:focus {
+  border-color: var(--accent-cyan);
+}
+
+.search-group {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.search-group .form-input {
+  width: 240px;
+  padding-right: 2rem;
+}
+
+.btn-subtle {
+  position: absolute;
+  right: 6px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+}
+
+.btn-subtle:hover {
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   Submissions Queue Table
+   ========================================================================== */
+
+.queue-panel {
+  padding: 1.5rem;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.92rem;
+}
+
+.admin-table th {
+  background-color: var(--bg-surface);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 0.85rem 1rem;
+  border-bottom: 2px solid var(--border-subtle);
+  white-space: nowrap;
+}
+
+.admin-table td {
+  padding: 0.95rem 1rem;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  vertical-align: middle;
+}
+
+.admin-table tbody tr {
+  transition: background-color 0.15s ease;
+  cursor: pointer;
+}
+
+.admin-table tbody tr:hover {
+  background-color: var(--bg-card-hover);
+}
+
+.admin-table tbody tr.row-active {
+  background-color: rgba(6, 182, 212, 0.08);
+  border-left: 3px solid var(--accent-cyan);
+}
+
+.cell-case-id {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--accent-cyan);
+}
+
+.cell-filename {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Status Toggle Badge */
+.status-pill {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.status-pill.status-new {
+  background-color: rgba(6, 182, 212, 0.15);
+  color: #38bdf8;
+  border-color: #38bdf8;
+}
+
+.status-pill.status-new:hover {
+  background-color: rgba(6, 182, 212, 0.25);
+  transform: scale(1.05);
+}
+
+.status-pill.status-reviewed {
+  background-color: rgba(100, 116, 139, 0.2);
+  color: #94a3b8;
+  border-color: #475569;
+}
+
+.status-pill.status-reviewed:hover {
+  background-color: rgba(100, 116, 139, 0.35);
+  color: #cbd5e1;
+  transform: scale(1.05);
+}
+
+/* Mini Verdict Badges for Table Rows */
+.badge-verdict {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  text-transform: uppercase;
+}
+
+.badge-verdict-critical {
+  background-color: var(--color-critical-bg);
+  color: var(--color-critical);
+  border: 1px solid var(--color-critical);
+}
+
+.badge-verdict-high {
+  background-color: var(--color-high-bg);
+  color: var(--color-high);
+  border: 1px solid var(--color-high);
+}
+
+.badge-verdict-medium {
+  background-color: var(--color-medium-bg);
+  color: var(--color-medium);
+  border: 1px solid var(--color-medium);
+}
+
+.badge-verdict-low {
+  background-color: var(--color-low-bg);
+  color: var(--color-low);
+  border: 1px solid var(--color-low);
+}
+
+/* ==========================================================================
+   Inspector Drawer
+   ========================================================================== */
+
+.inspector-panel {
+  border-top: 3px solid var(--accent-cyan);
+  margin-top: 2rem;
+  animation: slideDown 0.3s ease forwards;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.inspector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.inspector-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.active-inspect-case {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: var(--accent-cyan);
+  background: rgba(6, 182, 212, 0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-sm);
+}

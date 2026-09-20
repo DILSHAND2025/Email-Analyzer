@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAVERICK | Security Analyst Operations Dashboard</title>
+  <!-- Google Fonts: Outfit & Inter for high-contrast projector & SOC display readability -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/ui/style.css">
+  <link rel="stylesheet" href="/ui/admin.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-group">
+        <div class="brand-badge">MAVERICK</div>
+        <div class="brand-text">
+          <h1>Security Analyst Operations</h1>
+          <p class="subtitle">Incident Review Queue & Automated Forensic Triage</p>
+        </div>
+      </div>
+      <div class="header-actions-group">
+        <div class="auth-todo-badge" title="Access control pending in current milestone">
+          <span>🔒</span> TODO: Auth / RBAC Required
+        </div>
+        <a href="/submit" class="admin-top-link"><span>✉️</span> Reporter Portal</a>
+        <a href="/demo" class="admin-top-link"><span>⚡</span> Live Demo</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+
+    <!-- Metrics Summary Bar -->
+    <section class="admin-metrics-grid">
+      <div class="admin-metric-card">
+        <span class="admin-metric-label">TOTAL SUBMISSIONS</span>
+        <span class="admin-metric-num" id="stat-total">0</span>
+      </div>
+      <div class="admin-metric-card card-highlight-new">
+        <span class="admin-metric-label">PENDING REVIEW (NEW)</span>
+        <span class="admin-metric-num" id="stat-new">0</span>
+      </div>
+      <div class="admin-metric-card card-highlight-critical">
+        <span class="admin-metric-label">CRITICAL THREATS</span>
+        <span class="admin-metric-num" id="stat-critical">0</span>
+      </div>
+      <div class="admin-metric-card card-highlight-high">
+        <span class="admin-metric-label">HIGH ALERTS</span>
+        <span class="admin-metric-num" id="stat-high">0</span>
+      </div>
+    </section>
+
+    <!-- Filter & Search Controls Bar -->
+    <section class="admin-controls-card">
+      <div class="controls-left">
+        <!-- Status Filter -->
+        <div class="filter-group">
+          <label for="status-filter">Review Status:</label>
+          <select id="status-filter" class="form-select">
+            <option value="all">All Statuses</option>
+            <option value="New" selected>New Only (Unreviewed)</option>
+            <option value="Reviewed">Reviewed Only</option>
+          </select>
+        </div>
+
+        <!-- Verdict Filter -->
+        <div class="filter-group">
+          <label for="verdict-filter">Threat Verdict:</label>
+          <select id="verdict-filter" class="form-select">
+            <option value="all" selected>All Verdicts</option>
+            <option value="Critical">Critical</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </div>
+
+        <!-- Text Search -->
+        <div class="search-group">
+          <input type="text" id="search-input" class="form-input" placeholder="Search Case ID or filename...">
+          <button type="button" class="btn btn-sm btn-subtle" id="clear-search-btn">✕</button>
+        </div>
+      </div>
+
+      <div class="controls-right">
+        <button type="button" class="btn btn-preset" id="refresh-btn">
+          <span>🔄</span> Refresh Queue
+        </button>
+      </div>
+    </section>
+
+    <!-- Submissions Queue Table Section -->
+    <section class="panel queue-panel">
+      <div class="panel-header">
+        <div class="panel-title-wrap">
+          <span class="panel-num">QUEUE</span>
+          <h2>Prioritized Incident Review Queue</h2>
+        </div>
+        <span class="panel-hint">Sorted: Severity (Critical $\to$ High $\to$ Medium $\to$ Low) $\to$ Newest First</span>
+      </div>
+
+      <div class="table-responsive">
+        <table class="admin-table" id="queue-table">
+          <thead>
+            <tr>
+              <th style="width: 50px;">#</th>
+              <th>Case ID</th>
+              <th>Email File</th>
+              <th>Threat Verdict</th>
+              <th>Risk Score</th>
+              <th>Submitted (UTC)</th>
+              <th>Status</th>
+              <th style="text-align: right;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="queue-table-body">
+            <tr>
+              <td colspan="8" class="empty-cell">Loading submissions queue...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Detail Evidence Inspection Drawer / Modal (Hidden Initially) -->
+    <section class="panel inspector-panel" id="inspector-panel" style="display: none;">
+      <div class="inspector-header">
+        <div class="inspector-title-group">
+          <span class="panel-num">INSPECT</span>
+          <h2>Forensic Evidence Dossier</h2>
+          <span class="active-inspect-case" id="inspect-header-case-id">MAV-00000000-000000-00000000</span>
+        </div>
+        <div class="inspector-header-actions">
+          <button type="button" class="btn btn-sm btn-outline-danger" id="close-inspector-btn">✕ Close Dossier</button>
+        </div>
+      </div>
+
+      <!-- Executive Overview Card -->
+      <div class="overview-panel" style="margin-top: 1rem;">
+        <div class="overview-top">
+          <div class="case-meta">
+            <div class="meta-label">CASE IDENTIFIER</div>
+            <div class="case-id-wrap">
+              <span class="case-id" id="res-case-id">MAV-00000000-000000-00000000</span>
+              <button type="button" class="btn btn-copy" id="copy-case-id-btn" title="Copy Case ID">📋 Copy</button>
+            </div>
+            <div class="case-time" id="res-case-time">2026-09-20 00:00:00 UTC</div>
+          </div>
+
+          <!-- Color-Coded Threat Verdict Badge -->
+          <div class="verdict-card">
+            <div class="meta-label">THREAT VERDICT</div>
+            <div class="verdict-badge-lg" id="res-verdict-badge">
+              <span class="verdict-icon" id="res-verdict-icon">🛡️</span>
+              <span class="verdict-text" id="res-verdict-text">LOW</span>
+            </div>
+          </div>
+
+          <!-- Risk Score Meter -->
+          <div class="score-card">
+            <div class="meta-label">COMPOSITE RISK SCORE</div>
+            <div class="score-number-wrap">
+              <span class="score-val" id="res-risk-score">0.00</span>
+              <span class="score-max">/ 1.00</span>
+            </div>
+            <div class="score-meter-bg">
+              <div class="score-meter-fill" id="res-risk-fill" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- Actions Column (Status Toggle + PDF Download) -->
+          <div class="download-card">
+            <button type="button" class="btn btn-download btn-lg" id="download-pdf-btn">
+              <span class="download-icon">📥</span>
+              <span class="download-text">Download PDF Report</span>
+            </button>
+            <div style="margin-top: 0.5rem; width: 100%;">
+              <button type="button" class="btn btn-preset" id="inspect-status-toggle-btn" style="width: 100%; justify-content: center;">
+                Mark as Reviewed
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email Summary Strip -->
+        <div class="email-summary-strip">
+          <div class="summary-item">
+            <span class="summary-key">Subject:</span>
+            <span class="summary-value" id="res-subject">—</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-key">From:</span>
+            <span class="summary-value" id="res-from">—</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-key">To:</span>
+            <span class="summary-value" id="res-to">—</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-key">Date:</span>
+            <span class="summary-value" id="res-date">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Evidence Category Navigation Tabs -->
+      <div class="tabs-nav" role="tablist">
+        <button class="tab-btn active" data-tab="tab-fusion" role="tab">
+          <span class="tab-icon">⚖️</span> Fusion & Factors
+        </button>
+        <button class="tab-btn" data-tab="tab-ml" role="tab">
+          <span class="tab-icon">🧠</span> ML Phishing (<span id="tab-ml-score">0%</span>)
+        </button>
+        <button class="tab-btn" data-tab="tab-auth" role="tab">
+          <span class="tab-icon">🛡️</span> Authentication
+        </button>
+        <button class="tab-btn" data-tab="tab-ioc" role="tab">
+          <span class="tab-icon">🌐</span> IOCs & Geolocation
+        </button>
+        <button class="tab-btn" data-tab="tab-attachments" role="tab">
+          <span class="tab-icon">📎</span> Attachments (<span id="tab-att-count">0</span>)
+        </button>
+        <button class="tab-btn" data-tab="tab-hops" role="tab">
+          <span class="tab-icon">⏱️</span> Hop Timeline & Recommendations
+        </button>
+      </div>
+
+      <!-- Tab Content Panels -->
+      <div class="tabs-content">
+
+        <!-- TAB 1: Evidence Fusion Breakdown -->
+        <div class="tab-panel active" id="tab-fusion" role="tabpanel">
+          <div class="section-title">
+            <h3>Multi-Dimensional Risk Weighting</h3>
+            <p class="section-subtitle">Composite evaluation combining behavioral, cryptographic, and static signals</p>
+          </div>
+
+          <div class="fusion-grid">
+            <div class="fusion-card">
+              <div class="card-head">
+                <span class="card-pillar">ML Classification (40%)</span>
+                <span class="card-weight-val" id="fusion-ml-score">0.00 / 0.40</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill fill-ml" id="fusion-ml-bar" style="width: 0%;"></div>
+              </div>
+              <span class="card-desc" id="fusion-ml-raw">Raw Phishing Probability: 0.00</span>
+            </div>
+
+            <div class="fusion-card">
+              <div class="card-head">
+                <span class="card-pillar">Auth Verification (20%)</span>
+                <span class="card-weight-val" id="fusion-auth-score">0.00 / 0.20</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill fill-auth" id="fusion-auth-bar" style="width: 0%;"></div>
+              </div>
+              <span class="card-desc" id="fusion-auth-raw">SPF/DKIM/DMARC Failures & Misalignment</span>
+            </div>
+
+            <div class="fusion-card">
+              <div class="card-head">
+                <span class="card-pillar">Attachment Forensics (20%)</span>
+                <span class="card-weight-val" id="fusion-att-score">0.00 / 0.20</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill fill-att" id="fusion-att-bar" style="width: 0%;"></div>
+              </div>
+              <span class="card-desc" id="fusion-att-raw">Magic Byte Mismatch, Macros & Executables</span>
+            </div>
+
+            <div class="fusion-card">
+              <div class="card-head">
+                <span class="card-pillar">IOC & Geo Signals (20%)</span>
+                <span class="card-weight-val" id="fusion-ioc-score">0.00 / 0.20</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill fill-ioc" id="fusion-ioc-bar" style="width: 0%;"></div>
+              </div>
+              <span class="card-desc" id="fusion-ioc-raw">Suspicious URL schemes & infrastructure signals</span>
+            </div>
+          </div>
+
+          <!-- Plain-Language Contributing Factors -->
+          <div class="factors-box">
+            <h4>Contributing Risk Factors (Automated Reasoning)</h4>
+            <ul class="factors-list" id="res-factors-list">
+              <li>No significant threat indicators detected.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- TAB 2: Machine Learning Findings -->
+        <div class="tab-panel" id="tab-ml" role="tabpanel">
+          <div class="section-title">
+            <h3>Supervised NLP Phishing Classifier</h3>
+            <p class="section-subtitle">TF-IDF Vectorization & Multi-Layer Perceptron Neural Network</p>
+          </div>
+
+          <div class="metrics-row">
+            <div class="metric-card">
+              <span class="metric-label">PREDICTED CLASS</span>
+              <span class="metric-value-lg" id="ml-predicted-label">—</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">PHISHING PROBABILITY</span>
+              <span class="metric-value-lg" id="ml-prob-val">0.0%</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">MODEL CONFIDENCE</span>
+              <span class="metric-value-lg" id="ml-confidence-val">—</span>
+            </div>
+          </div>
+
+          <div class="card-box terms-box">
+            <h4>Top Influential Lexical Terms (Decision Attribution)</h4>
+            <p class="terms-subtitle">Features exerting the highest positive weight toward the predicted classification:</p>
+            <div class="terms-cloud" id="ml-terms-cloud">
+              <span class="term-badge">None identified</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: Authentication Results -->
+        <div class="tab-panel" id="tab-auth" role="tabpanel">
+          <div class="section-title">
+            <h3>Cryptographic & Identity Verification</h3>
+            <p class="section-subtitle">RFC 7208 (SPF), RFC 6376 (DKIM), and RFC 7489 (DMARC) Alignment</p>
+          </div>
+
+          <div class="auth-grid">
+            <div class="auth-card" id="auth-card-spf">
+              <div class="auth-card-header">
+                <span class="auth-proto">SPF</span>
+                <span class="auth-status-badge badge-neutral" id="spf-status">NONE</span>
+              </div>
+              <div class="auth-meta">
+                <div class="auth-meta-row"><span>Domain:</span> <strong id="spf-domain">—</strong></div>
+                <div class="auth-meta-row"><span>Sender IP:</span> <strong id="spf-ip">—</strong></div>
+                <div class="auth-meta-row"><span>Aligned:</span> <strong id="spf-aligned">—</strong></div>
+              </div>
+            </div>
+
+            <div class="auth-card" id="auth-card-dkim">
+              <div class="auth-card-header">
+                <span class="auth-proto">DKIM</span>
+                <span class="auth-status-badge badge-neutral" id="dkim-status">NONE</span>
+              </div>
+              <div class="auth-meta">
+                <div class="auth-meta-row"><span>Domain:</span> <strong id="dkim-domain">—</strong></div>
+                <div class="auth-meta-row"><span>Selector:</span> <strong id="dkim-selector">—</strong></div>
+                <div class="auth-meta-row"><span>Aligned:</span> <strong id="dkim-aligned">—</strong></div>
+              </div>
+            </div>
+
+            <div class="auth-card" id="auth-card-dmarc">
+              <div class="auth-card-header">
+                <span class="auth-proto">DMARC</span>
+                <span class="auth-status-badge badge-neutral" id="dmarc-status">NONE</span>
+              </div>
+              <div class="auth-meta">
+                <div class="auth-meta-row"><span>Policy:</span> <strong id="dmarc-policy">—</strong></div>
+                <div class="auth-meta-row"><span>Overall Aligned:</span> <strong id="dmarc-aligned">—</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-box" style="margin-top: 1.5rem;">
+            <h4>Authentication Forensic Notes</h4>
+            <ul class="auth-notes-list" id="auth-notes-list">
+              <li>No authentication notes recorded.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- TAB 4: IOCs & Geolocation -->
+        <div class="tab-panel" id="tab-ioc" role="tabpanel">
+          <div class="section-title">
+            <h3>Network Indicators of Compromise (IOCs)</h3>
+            <p class="section-subtitle">Extracted IPs, Domains, URLs, and Inferred IP Geolocation Telemetry</p>
+          </div>
+
+          <div class="ioc-metrics-strip">
+            <div class="ioc-metric">
+              <span class="ioc-count" id="ioc-count-ips">0</span>
+              <span class="ioc-type">Public IPs</span>
+            </div>
+            <div class="ioc-metric">
+              <span class="ioc-count" id="ioc-count-urls">0</span>
+              <span class="ioc-type">Extracted URLs</span>
+            </div>
+            <div class="ioc-metric">
+              <span class="ioc-count" id="ioc-count-domains">0</span>
+              <span class="ioc-type">Extracted Domains</span>
+            </div>
+            <div class="ioc-metric">
+              <span class="ioc-count" id="ioc-count-rfc1918">0</span>
+              <span class="ioc-type">RFC 1918 Private IPs</span>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <div class="table-header-group">
+              <h4>IP Geolocation & Network Infrastructure</h4>
+              <span class="geo-caveat-badge">Inferred Enrichment (ip-api.com)</span>
+            </div>
+            <table class="data-table" id="geo-table">
+              <thead>
+                <tr>
+                  <th>IP Address</th>
+                  <th>Country</th>
+                  <th>Region / City</th>
+                  <th>ASN</th>
+                  <th>ISP / Organization</th>
+                </tr>
+              </thead>
+              <tbody id="geo-table-body">
+                <tr><td colspan="5" class="empty-cell">No public IPs detected for geolocation.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="ioc-lists-grid">
+            <div class="card-box">
+              <h4>Extracted URLs</h4>
+              <ul class="ioc-item-list" id="ioc-urls-list">
+                <li class="empty-li">No URLs extracted.</li>
+              </ul>
+            </div>
+            <div class="card-box">
+              <h4>Extracted Domains</h4>
+              <ul class="ioc-item-list" id="ioc-domains-list">
+                <li class="empty-li">No domains extracted.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card-box" style="margin-top: 1.5rem;">
+            <h4>Private & Reserved IP Addresses (RFC 1918 Segregated)</h4>
+            <div class="tag-cloud" id="ioc-excluded-ips-tags">
+              <span class="tag tag-dim">None</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 5: Attachment Static Forensics -->
+        <div class="tab-panel" id="tab-attachments" role="tabpanel">
+          <div class="section-title">
+            <h3>Attachment Static Forensics</h3>
+            <p class="section-subtitle">Magic Byte Verification, Macro Analysis (oletools), and PE Executable Inspection</p>
+          </div>
+
+          <div id="attachments-container">
+            <p class="empty-state">No attachments detected in this message.</p>
+          </div>
+        </div>
+
+        <!-- TAB 6: Hop Timeline & Recommendations -->
+        <div class="tab-panel" id="tab-hops" role="tabpanel">
+          <div class="section-title">
+            <h3>Chronological Hop Chain & Recommendations</h3>
+            <p class="section-subtitle">MTA Transmission Delays & Tailored Incident Response Remediation</p>
+          </div>
+
+          <div class="recs-box">
+            <h4>Recommended Remediation Actions</h4>
+            <div class="recs-list" id="recs-list">
+              <p class="empty-state">No recommendations available.</p>
+            </div>
+          </div>
+
+          <div class="timeline-box" style="margin-top: 2rem;">
+            <h4>Received Hop Transit Chain (Earliest MTA $\to$ Destination)</h4>
+            <div class="timeline-list" id="timeline-list">
+              <p class="empty-state">No Received headers found.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script src="/ui/admin.js"></script>
+</body>
+</html>

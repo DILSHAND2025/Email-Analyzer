@@ -9,8 +9,8 @@ client = TestClient(app)
 
 
 def test_ui_index_html():
-    """Verify GET / returns 200 with HTML and required demo interface controls."""
-    resp = client.get("/")
+    """Verify GET /demo returns 200 with HTML and required demo interface controls."""
+    resp = client.get("/demo")
     assert resp.status_code == 200
     assert "text/html" in resp.headers.get("content-type", "")
     html = resp.text
@@ -20,6 +20,11 @@ def test_ui_index_html():
     assert "res-verdict-badge" in html
     assert "download-pdf-btn" in html
     assert "sample_phishing.eml" in html
+
+    # Also verify GET / serves the public reporter submission page
+    root_resp = client.get("/")
+    assert root_resp.status_code == 200
+    assert "submit-btn" in root_resp.text
 
 
 def test_ui_css_asset():

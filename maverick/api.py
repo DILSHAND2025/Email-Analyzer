@@ -2,17 +2,29 @@
 
 from __future__ import annotations
 
+import json
 import os
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 from fastapi import FastAPI, File, HTTPException, Query, Request, UploadFile, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse, Response
 
+from maverick.db import (
+    Submission,
+    count_submissions,
+    create_submission,
+    get_submission_by_case_id,
+    list_submissions,
+    update_submission_status,
+)
 from maverick.parser.engine import parse_eml
 from maverick.parser.models import ParsedEmail
 
-UI_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "ui")
-SAMPLES_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "samples")
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+UI_DIR = os.path.join(PROJECT_ROOT, "ui")
+SAMPLES_DIR = os.path.join(PROJECT_ROOT, "samples")
+REPORTS_DIR = os.path.join(PROJECT_ROOT, "data", "reports")
+os.makedirs(REPORTS_DIR, exist_ok=True)
 
 app = FastAPI(
     title="MAVERICK Forensic Email Platform - Module 1: Parser",
@@ -980,14 +992,293 @@ async def get_report_json(case_id: str) -> Dict[str, Any]:
 
 
 # ==============================================================================
-# Live Demonstration Web Interface Routes
+# Persistent User Submission & Security Analyst Review Workflow
+# ==============================================================================
+
+@app.post(
+    "/api/submissions",
+    tags=["Submission Workflow"],
+    summary="User / Reporter submission endpoint for suspicious emails",
+    response_description="Minimal confirmation tracking ID for the reporting user",
+    status_code=status.HTTP_201_CREATED,
+)
+async def submit_email_endpoint(
+    request: Request,
+    file: Optional[UploadFile] = File(
+        default=None,
+        description="Uploaded .eml file (multipart/form-data)"
+    ),
+) -> Dict[str, Any]:
+    """
+    Public-facing suspicious email ingestion endpoint:
+    - Ingests .eml message from end users/reporters.
+    - Executes complete MAVERICK forensic pipeline in the backend.
+    - Persists vector PDF report to disk (data/reports/).
+    - Persists submission record and full report JSON in SQLite database.
+    - Returns ONLY a minimal confirmation tracking Case ID (no threat verdicts or evidence).
+    """
+    from maverick.reports import run_full_pipeline_and_generate_report
+
+    raw_bytes: bytes = b""
+    original_filename = "suspicious_email.eml"
+
+    if file is not None:
+        try:
+            raw_bytes = await file.read()
+            if file.filename:
+                original_filename = file.filename
+        except Exception as exc:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Failed to read uploaded file: {exc}",
+            )
+    else:
+        try:
+            body = await request.body()
+            if body and body.strip():
+                raw_bytes = body
+        except Exception as exc:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Failed to read request body: {exc}",
+            )
+
+    if not raw_bytes or not raw_bytes.strip():
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="No email content provided. Please upload a valid .eml file.",
+        )
+
+    try:
+        report, pdf_bytes = run_full_pipeline_and_generate_report(raw_bytes)
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Forensic pipeline analysis error: {exc}",
+        )
+
+    case_id = report.case_metadata.case_id
+    pdf_filename = f"MAVERICK-Report-{case_id}.pdf"
+    pdf_path = os.path.join(REPORTS_DIR, pdf_filename)
+
+    # Persist PDF report to disk
+    try:
+        with open(pdf_path, "wb") as f:
+            f.write(pdf_bytes)
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to persist PDF report to disk: {exc}",
+        )
+
+    # Persist submission record in SQLite database
+    submission = Submission(
+        filename=original_filename,
+        case_id=case_id,
+        risk_score=report.threat_assessment.risk_score,
+        verdict=report.threat_assessment.verdict,
+        full_report_json=json.dumps(report.to_api_dict()),
+        pdf_path=pdf_path,
+        status="New",
+    )
+
+    try:
+        saved = create_submission(submission)
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to persist submission in database: {exc}",
+        )
+
+    # Cache report in memory as well for session retrieval
+    _REPORT_CACHE[case_id] = (report, pdf_bytes)
+
+    # Return minimal reporter confirmation (strictly isolated from verdict/evidence)
+    return {
+        "status": "success",
+        "message": "Your email has been securely submitted for security analysis.",
+        "case_id": case_id,
+        "filename": saved.filename,
+        "upload_timestamp": (
+            saved.upload_timestamp.isoformat()
+            if saved.upload_timestamp
+            else ""
+        ),
+    }
+
+
+@app.get(
+    "/api/submissions",
+    tags=["Submission Workflow"],
+    summary="List prioritized submissions for Security Analyst review",
+)
+async def list_submissions_endpoint(
+    status: Optional[str] = Query(default=None, description="Filter by status: 'New', 'Reviewed', or 'all'"),
+    verdict: Optional[str] = Query(default=None, description="Filter by verdict: 'Critical', 'High', 'Medium', 'Low', or 'all'"),
+    search: Optional[str] = Query(default=None, description="Search Case ID or filename"),
+    limit: int = Query(default=100, ge=1, le=500),
+    offset: int = Query(default=0, ge=0),
+) -> Dict[str, Any]:
+    """
+    Retrieve queue of submissions sorted by Analyst Priority:
+    1. Verdict Severity: Critical -> High -> Medium -> Low
+    2. Upload Time: newest first within tier
+    """
+    items = list_submissions(
+        status_filter=status,
+        verdict_filter=verdict,
+        search=search,
+        limit=limit,
+        offset=offset,
+    )
+    metrics = count_submissions()
+    return {
+        "metrics": metrics,
+        "submissions": [s.to_dict(parse_json=False) for s in items],
+    }
+
+
+@app.get(
+    "/api/submissions/{case_id}",
+    tags=["Submission Workflow"],
+    summary="Retrieve full forensic details for a submission by Case ID",
+)
+async def get_submission_endpoint(case_id: str) -> Dict[str, Any]:
+    """Retrieve full submission dossier including complete forensic report JSON."""
+    sub = get_submission_by_case_id(case_id)
+    if not sub:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Submission with Case ID '{case_id}' not found.",
+        )
+    return {
+        "submission": sub.to_dict(parse_json=True),
+        "pdf_download_url": f"/api/submissions/{case_id}/pdf",
+    }
+
+
+@app.patch(
+    "/api/submissions/{case_id}/status",
+    tags=["Submission Workflow"],
+    summary="Update submission review status ('New' <-> 'Reviewed')",
+)
+async def update_submission_status_endpoint(
+    case_id: str,
+    payload: Dict[str, str],
+) -> Dict[str, Any]:
+    """Update review status of a submission."""
+    new_status = payload.get("status")
+    if not new_status or new_status.lower() not in ("new", "reviewed"):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Status must be either 'New' or 'Reviewed'.",
+        )
+
+    updated = update_submission_status(case_id, new_status)
+    if not updated:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Submission with Case ID '{case_id}' not found.",
+        )
+
+    return {
+        "case_id": case_id,
+        "status": updated.status,
+    }
+
+
+@app.get(
+    "/api/submissions/{case_id}/pdf",
+    tags=["Submission Workflow"],
+    summary="Download persisted forensic PDF report by Case ID",
+)
+async def download_submission_pdf(case_id: str) -> Response:
+    """Stream stored PDF report from disk."""
+    sub = get_submission_by_case_id(case_id)
+    if not sub:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Submission with Case ID '{case_id}' not found.",
+        )
+
+    if not os.path.isfile(sub.pdf_path):
+        # Fallback to session cache if disk path is missing
+        if case_id in _REPORT_CACHE:
+            _, pdf_bytes = _REPORT_CACHE[case_id]
+            return Response(
+                content=pdf_bytes,
+                media_type="application/pdf",
+                headers={"Content-Disposition": f'attachment; filename="MAVERICK-Report-{case_id}.pdf"'},
+            )
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"PDF file for Case ID '{case_id}' not found on server disk.",
+        )
+
+    with open(sub.pdf_path, "rb") as f:
+        pdf_content = f.read()
+
+    filename = f"MAVERICK-Report-{case_id}.pdf"
+    return Response(
+        content=pdf_content,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
+
+
+# ==============================================================================
+# Web Interfaces: Reporter Portal, Analyst Dashboard, and Live Demo Tool
 # ==============================================================================
 
 @app.get(
     "/",
     response_class=HTMLResponse,
-    tags=["Demo Interface"],
-    summary="Interactive live forensic demonstration interface",
+    tags=["Web Interfaces"],
+    summary="Public-facing Suspicious Email Submission Portal (Reporter View)",
+)
+@app.get(
+    "/submit",
+    response_class=HTMLResponse,
+    tags=["Web Interfaces"],
+    summary="Public-facing Suspicious Email Submission Portal (Reporter View)",
+)
+async def serve_submit_page() -> HTMLResponse:
+    """Serve the public reporter submission portal."""
+    submit_path = os.path.join(UI_DIR, "submit.html")
+    if not os.path.isfile(submit_path):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="submit.html not found on server.",
+        )
+    with open(submit_path, "r", encoding="utf-8") as f:
+        content = f.read()
+    return HTMLResponse(content=content)
+
+
+@app.get(
+    "/admin",
+    response_class=HTMLResponse,
+    tags=["Web Interfaces"],
+    summary="Security Analyst Operations Dashboard (Review Queue View)",
+)
+async def serve_admin_page() -> HTMLResponse:
+    """Serve the Security Analyst Operations Dashboard."""
+    admin_path = os.path.join(UI_DIR, "admin.html")
+    if not os.path.isfile(admin_path):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="admin.html not found on server.",
+        )
+    with open(admin_path, "r", encoding="utf-8") as f:
+        content = f.read()
+    return HTMLResponse(content=content)
+
+
+@app.get(
+    "/demo",
+    response_class=HTMLResponse,
+    tags=["Web Interfaces"],
+    summary="Interactive live forensic demonstration interface with presets",
 )
 async def serve_demo_interface() -> HTMLResponse:
     """Serve the MAVERICK Projector-Optimized Live Forensic Demo Web Interface."""
@@ -997,27 +1288,24 @@ async def serve_demo_interface() -> HTMLResponse:
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Demo UI index.html not found on server filesystem.",
         )
-    try:
-        with open(index_path, "r", encoding="utf-8") as f:
-            content = f.read()
-        return HTMLResponse(content=content)
-    except Exception as exc:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to read UI template: {exc}",
-        )
+    with open(index_path, "r", encoding="utf-8") as f:
+        content = f.read()
+    return HTMLResponse(content=content)
 
 
 @app.get(
     "/ui/{filename}",
-    tags=["Demo Interface"],
-    summary="Serve demo interface static assets (CSS, JS)",
+    tags=["Web Interfaces"],
+    summary="Serve static web assets (CSS, JS)",
 )
 async def serve_ui_asset(filename: str) -> Response:
-    """Serve styling and client scripts for the demo interface."""
+    """Serve styling and client scripts for web interfaces."""
     allowed_assets: Dict[str, Tuple[str, str]] = {
         "style.css": ("text/css; charset=utf-8", "style.css"),
         "app.js": ("application/javascript; charset=utf-8", "app.js"),
+        "submit.js": ("application/javascript; charset=utf-8", "submit.js"),
+        "admin.css": ("text/css; charset=utf-8", "admin.css"),
+        "admin.js": ("application/javascript; charset=utf-8", "admin.js"),
     }
     if filename not in allowed_assets:
         raise HTTPException(
@@ -1044,7 +1332,7 @@ async def serve_ui_asset(filename: str) -> Response:
 
 @app.get(
     "/demo/sample/{sample_name}",
-    tags=["Demo Interface"],
+    tags=["Web Interfaces"],
     summary="Fetch bundled sample .eml message for instant live demonstration",
 )
 async def get_demo_sample(sample_name: str) -> Response:

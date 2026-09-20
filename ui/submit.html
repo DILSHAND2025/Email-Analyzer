@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Suspicious Email | MAVERICK Security Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/ui/style.css">
+  <style>
+    .submit-container {
+      max-width: 780px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+    }
+    .hero-banner {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .hero-banner h1 {
+      font-family: var(--font-heading);
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+    .hero-banner p {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .reporter-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 2.25rem;
+      box-shadow: var(--shadow-card);
+    }
+    .confirmation-card {
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+    .conf-icon {
+      width: 72px;
+      height: 72px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 2px solid #10b981;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      margin: 0 auto 1.5rem auto;
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.3);
+    }
+    .conf-title {
+      font-family: var(--font-heading);
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+    }
+    .conf-desc {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 520px;
+      margin: 0 auto 2rem auto;
+      line-height: 1.6;
+    }
+    .tracking-box {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      margin: 0 auto 2.25rem auto;
+      max-width: 480px;
+    }
+    .tracking-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 0.4rem;
+    }
+    .tracking-id-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+    .tracking-case-id {
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+    }
+    .reporter-nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color 0.2s ease;
+    }
+    .reporter-nav-link:hover {
+      color: var(--accent-cyan);
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Navigation -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-group">
+        <div class="brand-badge">MAVERICK</div>
+        <div class="brand-text">
+          <h1>Threat Reporting Portal</h1>
+          <p class="subtitle">Security Incident Response Triage</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <a href="/admin" class="reporter-nav-link" title="SOC Analyst Portal">
+          <span>🛡️</span> Security Analyst Login
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="submit-container">
+    <div class="hero-banner">
+      <h1>Report a Suspicious Email</h1>
+      <p>If you received an unexpected message, phishing link, or unrecognized attachment, submit it here for automated forensic analysis by the Security Team.</p>
+    </div>
+
+    <!-- Submission Form Panel -->
+    <div class="reporter-card" id="submission-card">
+      <div class="panel-header" style="margin-bottom: 1.5rem;">
+        <div class="panel-title-wrap">
+          <span class="panel-num">01</span>
+          <h2>Upload Email File (.eml)</h2>
+        </div>
+        <span class="panel-hint">Confidential & Encrypted Transmission</span>
+      </div>
+
+      <!-- Drag & Drop Zone -->
+      <div class="dropzone" id="dropzone">
+        <input type="file" id="file-input" accept=".eml,message/rfc822,text/plain" style="display: none;">
+        <div class="dropzone-content" id="dropzone-prompt">
+          <div class="dropzone-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+          </div>
+          <div class="dropzone-text">
+            <p class="dropzone-main">Drag & drop the suspicious <strong>.eml</strong> file here, or <button type="button" class="link-btn" id="browse-btn">browse file</button></p>
+            <p class="dropzone-sub">Outlook, Gmail, and Thunderbird allow exporting emails via 'Save As' or 'Download message' (.eml)</p>
+          </div>
+        </div>
+
+        <!-- Selected File Banner -->
+        <div class="file-loaded-banner" id="file-loaded-banner" style="display: none;">
+          <div class="file-info-group">
+            <span class="file-icon">✉️</span>
+            <div class="file-metadata">
+              <span class="file-name" id="selected-file-name">email.eml</span>
+              <span class="file-size" id="selected-file-size">0 KB</span>
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline-danger" id="clear-file-btn" title="Remove file">✕ Remove</button>
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <div class="action-bar" style="margin-top: 2rem;">
+        <button type="button" class="btn btn-primary btn-lg" id="submit-btn" disabled style="width: 100%; justify-content: center;">
+          <span class="btn-icon">🚀</span>
+          <span class="btn-text">Submit Email for Security Analysis</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Processing Loader (Hidden Initially) -->
+    <div class="reporter-card loading-panel" id="loading-card" style="display: none; margin-top: 1.5rem;">
+      <div class="loading-wrap">
+        <div class="spinner"></div>
+        <div class="loading-details">
+          <h3>Securely Ingesting & Analyzing Submission...</h3>
+          <p>Please keep this page open while the message is processed and registered with our Security Operations Center.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Confirmation Panel (Hidden Initially) -->
+    <div class="reporter-card confirmation-card" id="confirmation-card" style="display: none;">
+      <div class="conf-icon">✓</div>
+      <h2 class="conf-title">Email Received by Security Team</h2>
+      <p class="conf-desc">
+        Thank you for reporting this message. The email has been recorded in the security incident triage queue. Our automated systems and security analysts are investigating the sender, routing chain, and payload indicators.
+      </p>
+
+      <div class="tracking-box">
+        <div class="tracking-label">INCIDENT TRACKING CASE ID</div>
+        <div class="tracking-id-row">
+          <span class="tracking-case-id" id="confirmed-case-id">MAV-00000000-000000-00000000</span>
+          <button type="button" class="btn btn-copy" id="copy-tracking-btn">📋 Copy</button>
+        </div>
+      </div>
+
+      <div class="conf-actions">
+        <button type="button" class="btn btn-primary" id="submit-another-btn">
+          <span>✉️</span> Submit Another Suspicious Email
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script src="/ui/submit.js"></script>
+</body>
+</html>
